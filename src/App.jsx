@@ -88,18 +88,18 @@ const SeviAIHub = () => {
         {/* Cabecera */}
         <div className="pt-12 px-8 flex flex-col items-center text-center">
           
-          <div className="mb-6">
+          <div className="mb-8">
             <img 
               src={hubData.logoUrl} 
               alt="Logo eNBlanco" 
-              className="h-16 w-auto object-contain mx-auto mix-blend-multiply drop-shadow-sm"
+              className="h-24 sm:h-28 w-auto object-contain mx-auto mix-blend-multiply drop-shadow-sm transition-all"
               onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=eN&background=0f3d6e&color=fff&size=128"; }}
             />
           </div>
 
           {/* Foto de perfil Dra. Nuria Blanco */}
           {hubData.profilePicture && (
-            <div className="w-24 h-24 rounded-full border-4 border-white shadow-xl overflow-hidden mb-6 bg-slate-100">
+            <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-4 border-white shadow-xl overflow-hidden mb-6 bg-slate-100 transition-all">
               <img 
                 src={hubData.profilePicture} 
                 alt={hubData.person} 
