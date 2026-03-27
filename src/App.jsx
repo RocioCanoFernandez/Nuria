@@ -45,28 +45,32 @@ const SeviAIHub = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Helper para renderizar los enlaces que tengan URL confirmada
+  // Helper para renderizar los enlaces que tengan URL confirmada (o mostrarlos como borrador visual si no la tienen)
   const renderLinks = (linksArray) => {
-    return linksArray.filter(link => link.url !== "").map((link) => (
-      <a 
-        key={link.id} 
-        href={link.url} 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="group flex items-center justify-between p-4 bg-white hover:bg-blue-50 border border-slate-200 rounded-3xl transition-all shadow-sm mb-3 active:translate-y-1"
-      >
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-900 group-hover:text-red-600 transition-colors border border-blue-100 font-bold">
-            <link.icon className="w-6 h-6" />
+    return linksArray.map((link) => {
+      const isPending = link.url === "";
+      return (
+        <a 
+          key={link.id} 
+          href={isPending ? "#" : link.url} 
+          target={isPending ? "_self" : "_blank"} 
+          rel="noopener noreferrer" 
+          onClick={isPending ? (e) => e.preventDefault() : undefined}
+          className={`group flex items-center justify-between p-4 bg-white hover:bg-blue-50 border border-slate-200 rounded-3xl transition-all shadow-sm mb-3 active:translate-y-1 ${isPending ? 'opacity-80' : ''}`}
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-900 group-hover:text-red-600 transition-colors border border-blue-100 font-bold">
+              <link.icon className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="block font-black text-slate-900 text-lg leading-tight">{link.title}</span>
+              <span className="text-xs text-slate-500 font-medium">{link.subtitle} {isPending && "(Próximamente)"}</span>
+            </div>
           </div>
-          <div>
-            <span className="block font-black text-slate-900 text-lg leading-tight">{link.title}</span>
-            <span className="text-xs text-slate-500 font-medium">{link.subtitle}</span>
-          </div>
-        </div>
-        <ChevronRight className="w-6 h-6 text-slate-300 group-hover:text-red-500 transform group-hover:translate-x-1 transition-all" />
-      </a>
-    ));
+          <ChevronRight className="w-6 h-6 text-slate-300 group-hover:text-red-500 transform group-hover:translate-x-1 transition-all" />
+        </a>
+      );
+    });
   };
 
   return (
@@ -121,16 +125,21 @@ const SeviAIHub = () => {
           </h2>
 
           <div className="flex flex-col gap-2 w-full max-w-sm mb-6">
-            {hubData.email && (
-              <a href={`mailto:${hubData.email}`} className="text-slate-600 hover:text-red-600 font-medium text-sm flex justify-center items-center gap-2 transition-colors">
-                <Mail className="w-4 h-4 opacity-70" /> {hubData.email}
-              </a>
-            )}
-            {hubData.phone && (
-              <a href={`tel:${hubData.phone}`} className="text-slate-600 hover:text-red-600 font-medium text-sm flex justify-center items-center gap-2 transition-colors">
-                <Phone className="w-4 h-4 opacity-70" /> {hubData.phone}
-              </a>
-            )}
+            <a 
+              href={hubData.email ? `mailto:${hubData.email}` : "#"} 
+              onClick={!hubData.email ? (e) => e.preventDefault() : undefined} 
+              className={`text-slate-600 hover:text-red-600 font-medium text-sm flex justify-center items-center gap-2 transition-colors ${!hubData.email ? 'opacity-60' : ''}`}
+            >
+              <Mail className="w-4 h-4 opacity-70" /> {hubData.email || "email@pendiente.com"}
+            </a>
+            
+            <a 
+              href={hubData.phone ? `tel:${hubData.phone}` : "#"} 
+              onClick={!hubData.phone ? (e) => e.preventDefault() : undefined} 
+              className={`text-slate-600 hover:text-red-600 font-medium text-sm flex justify-center items-center gap-2 transition-colors ${!hubData.phone ? 'opacity-60' : ''}`}
+            >
+              <Phone className="w-4 h-4 opacity-70" /> {hubData.phone || "+34 000 000 000"}
+            </a>
           </div>
           
           {/* FRASE PRINCIPAL PENDIENTE */}
@@ -148,21 +157,9 @@ const SeviAIHub = () => {
           {renderLinks(mainLinks)}
           
           {/* Secondary Links Wrapper */}
-          {secondaryLinks.some(link => link.url !== "") && (
-            <div className="mt-4 pt-4 border-t border-slate-200">
-              {renderLinks(secondaryLinks)}
-            </div>
-          )}
-          
-          {/* Aviso temporal interno si no hay enlaces activos (solo para desarrollo) */}
-          {mainLinks.concat(secondaryLinks).every(l => l.url === "") && (
-             <div className="text-center p-8 bg-blue-50/50 rounded-3xl border border-blue-100 mt-4 mb-8">
-               <p className="text-xs font-bold text-blue-900 uppercase tracking-widest mb-2">Próximamente</p>
-               <p className="text-sm text-blue-700/70 leading-relaxed max-w-[200px] mx-auto">
-                 Estamos preparando nuestra plataforma para ofrecerte el mejor servicio.
-               </p>
-             </div>
-          )}
+          <div className="mt-4 pt-4 border-t border-slate-200">
+            {renderLinks(secondaryLinks)}
+          </div>
         </div>
 
         {/* FOOTER OBLIGATORIO */}
@@ -190,18 +187,17 @@ const SeviAIHub = () => {
         <Download className="w-6 h-6 group-hover:text-red-600 transition-colors drop-shadow-sm" />
       </button>
 
-      {/* WhatsApp Button (Bottom Right) - Oculto hasta que se confirme PENDIENTE */}
-      {hubData.whatsapp && (
-        <a 
-          href={`https://wa.me/${hubData.whatsapp}`} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="fixed bottom-6 right-6 w-14 h-14 bg-[#0f3d6e] shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 z-50 rounded-full flex items-center justify-center group cursor-pointer"
-          title="Contactar por WhatsApp"
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-        </a>
-      )}
+      {/* WhatsApp Button (Bottom Right) */}
+      <a 
+        href={hubData.whatsapp ? `https://wa.me/${hubData.whatsapp}` : "#"} 
+        target={hubData.whatsapp ? "_blank" : "_self"} 
+        rel="noopener noreferrer" 
+        onClick={!hubData.whatsapp ? (e) => e.preventDefault() : undefined}
+        className={`fixed bottom-6 right-6 w-14 h-14 bg-[#0f3d6e] shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 z-50 rounded-full flex items-center justify-center group cursor-pointer ${!hubData.whatsapp ? 'opacity-60' : ''}`}
+        title={hubData.whatsapp ? "Contactar por WhatsApp" : "WhatsApp (Próximamente)"}
+      >
+        <MessageCircle className="w-6 h-6 text-white" />
+      </a>
 
     </div>
   );
