@@ -31,7 +31,7 @@ const SeviAIHub = () => {
   ];
 
   const handleSaveContact = () => {
-    const vcard = `BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Dra. Nuria Blanco Piñero\r\nORG:eNBlanco\r\nTITLE:Psicóloga Sanitaria. Directora del Centro Sanitario eNBlanco.\r\nTEL;TYPE=WORK,VOICE:+34 646 66 03 80\r\nEMAIL;TYPE=INTERNET:direccion@centroenblanco.es\r\nURL:https://www.centroenblanco.es\r\nNOTE:Centro Sanitario eNBlanco\r\nEND:VCARD`;
+    const vcard = `BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Dra. Nuria Blanco Piñero\r\nORG:eNBlanco\r\nTITLE:Psicóloga Sanitaria. Directora del Centro Sanitario eNBlanco.\r\nTEL;TYPE=WORK,VOICE:+34 646 66 03 80\r\nEMAIL;TYPE=INTERNET:direccion@centroenblanco.es\r\nURL:https://www.centroenblanco.es\r\nURL:https://hub-hub-nuria.npfusf.easypanel.host/\r\nNOTE:Centro Sanitario eNBlanco\r\nEND:VCARD`;
     
     const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
     const url = URL.createObjectURL(blob);
