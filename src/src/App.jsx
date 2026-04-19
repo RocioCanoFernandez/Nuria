@@ -196,17 +196,72 @@ const SeviAIHub = () => {
             </a>
           </div>
 
-          {/* SeviAI Ecosystem Signature */}
-          <div className="flex items-center justify-center gap-2 mt-8 opacity-60 hover:opacity-100 transition-opacity">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white">
-              © 2026 Rocío Cano
-            </p>
-            <div className="w-px h-3 bg-white/20 mx-1"></div>
-            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white flex items-center gap-1.5">
-              SeviAI Ecosystem
-              <img src="/logo_sin_fondo.png" alt="SeviAI" className="h-3 w-auto brightness-0 invert opacity-80" />
-            </p>
-          </div>
+          {/* Footer SeviAI Ecosystem */}
+        <div className="seviai-footer-container">
+          <style>{`
+            .seviai-footer-container {
+              margin-top: 3rem;
+              padding: 0 2rem 2rem 2rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              opacity: 0.9;
+            }
+            .seviai-footer-copyright {
+              font-size: 13px;
+              text-transform: uppercase;
+              letter-spacing: 0.15em;
+              font-weight: 600;
+              color: rgba(0,0,0,0.5);
+              text-align: center;
+              margin: 0 0 1.25rem 0;
+            }
+            .seviai-footer-link {
+              font-size: 14px;
+              text-transform: uppercase;
+              letter-spacing: 0.15em;
+              font-weight: 800;
+              color: rgba(0,0,0,0.7);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 12px;
+              text-decoration: none;
+              transition: color 0.3s ease;
+              padding: 10px 16px;
+            }
+            .seviai-footer-logo {
+              height: 20px;
+              width: auto;
+              opacity: 0.7;
+              filter: grayscale(100%);
+              transition: all 0.3s ease;
+            }
+            @media (hover: hover) {
+              .seviai-footer-link:hover {
+                color: #DCAE56;
+              }
+              .seviai-footer-link:hover .seviai-footer-logo {
+                opacity: 1;
+                filter: grayscale(0%);
+              }
+            }
+            .seviai-footer-link:active {
+              color: #DCAE56;
+            }
+            .seviai-footer-link:active .seviai-footer-logo {
+              opacity: 1;
+              filter: grayscale(0%);
+            }
+          `}</style>
+          <p className="seviai-footer-copyright">
+            © 2026 Rocío Cano
+          </p>
+          <a href="https://www.seviai.es/" target="_blank" rel="noopener noreferrer" className="seviai-footer-link">
+            SeviAI Ecosystem
+            <img src="/logo_sin_fondo.png" alt="SeviAI" className="seviai-footer-logo" />
+          </a>
+        </div>
 
         </div>
       </div>
